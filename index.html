@@ -187,7 +187,7 @@
         <h4>heal / heel　<span class="star">★同音 [hil]</span></h4>
         <p><b>heal</b> v. 治癒（= cure）　↔ hurt, injure</p>
         <p><b>heel</b> n. 腳跟；鞋跟</p>
-        <p>記法：hea<b>l</b> 跟 hea<b>lth</b> 同一家；hee<b>l</b> 是鞋子那個。</p>
+        <p>兩者同源好分辨：heal 與 health 是同一個字族（治癒／健康）；heel 專指腳跟、鞋跟。</p>
       </div>
       <div class="cmp">
         <h4>injure / injury / injured</h4>
@@ -498,7 +498,9 @@ function render(){
   $('qscore').textContent = right + ' 對';
   $('qprog').style.width = (idx / queue.length * 100) + '%';
   $('qtext').textContent = q.zh;
-  $('qhint').textContent = q.k === 'phrase' ? '片語' : '單字　第 ' + q.n + ' 個';
+  $('qhint').textContent = q.k === 'phrase'
+    ? '片語'
+    : q.pos + '　·　單字 第 ' + q.n + ' 個';
   $('qverdict').innerHTML = '';
   $('nextBtn').hidden = true;
 
@@ -558,7 +560,7 @@ function verdict(ok, q, mine, close){
   box.innerHTML =
     '<span class="vt ' + (ok ? 'vok' : 'vno') + '">' + (ok ? (close ? '算你對，但拼字差一點' : '答對') : '答錯') + '</span>' +
     '<span class="big">' + q.en + '</span>' +
-    '<small>' + q.zh + (q.kk ? '　' + q.kk : '') + '</small>' +
+    '<small>' + (q.pos ? q.pos + '　' : '') + q.zh + (q.kk ? '　' + q.kk : '') + '</small>' +
     (close ? '<small class="gold">正確拼法：' + q.en + '</small>' : '') +
     (!ok && mine ? '<small>你寫的／選的：' + mine + '</small>' : '') +
     (q.note ? '<small>' + q.note.replace(/<[^>]+>/g,'') + '</small>' : '');
@@ -590,7 +592,7 @@ function finish(){
     wrongList.forEach(function(w){
       const d = document.createElement('div');
       d.className = 'wrongrow';
-      d.innerHTML = '<b>' + w.q.en + '</b>' + w.q.zh +
+      d.innerHTML = '<b>' + w.q.en + '</b>' + (w.q.pos ? w.q.pos + '　' : '') + w.q.zh +
         '<span>你寫的／選的：<em>' + w.mine + '</em></span>';
       wrap.appendChild(d);
     });
